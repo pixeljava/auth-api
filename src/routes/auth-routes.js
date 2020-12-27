@@ -13,9 +13,11 @@ authRouter.post('/signup', async (req, res, next) => {
     let user = new User(req.body);
     const userRecord = await user.save();
     const responseObject = {
-      _id: userRecord._id,
-      username: userRecord.username,
-      capabilities: userRecord.capabilities,
+      user: {
+        _id: userRecord._id,
+        username: userRecord.username,
+        capabilities: userRecord.capabilities,
+      },
       token: userRecord.token,
     };
     res.status(201).json(responseObject);
@@ -26,9 +28,11 @@ authRouter.post('/signup', async (req, res, next) => {
 
 authRouter.post('/signin', basicAuth, (req, res, next) => {
   const userObject = {
-    _id: req._id,
-    username: req.username,
-    capabilities: req.capabilities,
+    user: {
+      _id: req.user._id,
+      username: req.user.username,
+      capabilities: req.user.capabilities,
+    },
     token: req.user.token,
   };
   res.status(200).json(userObject);

@@ -20,7 +20,7 @@ beforeAll(async (done) => {
 
 describe('Auth Middleware', () => {
   // admin:password: YWRtaW46cGFzc3dvcmQ=
-  // admin:foo: YWRtaW46Zm9v
+  // admin:foo: YWRtaZm9v
 
   // Mock the express req/res/next that we need for each middleware call
   const req = {};
@@ -34,7 +34,7 @@ describe('Auth Middleware', () => {
     it('fails a login for a user (admin) with the incorrect basic credentials', () => {
       // Change the request to match this test case
       req.headers = {
-        authorization: 'Basic YWRtaW46Zm9v',
+        authorization: 'Basic YWRtaZm9v',
       };
 
       return middleware(req, res, next)

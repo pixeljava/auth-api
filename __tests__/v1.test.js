@@ -17,15 +17,7 @@ const { server } = require('../src/server.js');
 const supergoose = require('@code-fellows/supergoose');
 const mockRequest = supergoose(server);
 
-// let users = {
-//   user: { username: 'user', password: 'password' },
-//   writer: { username: 'writer', password: 'password' },
-//   editor: { username: 'editor', password: 'password' },
-//   admin: { username: 'admin', password: 'password' },
-// };
-// Object.keys(users).forEach(userType => {});
-
-describe('The V1 web server API', () => {
+xdescribe('The V1 web server API', () => {
   // Throw 404 on a bad route
   it('gives a 404 on a bad route', async () => {
     const response = await mockRequest.put('/api/v1/burritos');
@@ -38,7 +30,7 @@ describe('The V1 web server API', () => {
   });
 });
 
-describe('The V1 taco API routes', () => {
+xdescribe('The V1 taco API routes', () => {
   // Store our taco ids once created for reuse later.
   let tacoOneId;
   let tacoTwoId;
@@ -94,7 +86,7 @@ describe('The V1 taco API routes', () => {
   });
 });
 
-describe('The V1 drink API routes', () => {
+xdescribe('The V1 drink API routes', () => {
   // Store our drink ids once created for reuse later.
   let drinkOneId;
   let drinkTwoId;

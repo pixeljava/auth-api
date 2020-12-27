@@ -2,17 +2,17 @@
 
 module.exports = (capability) => {
   return (req, res, next) => {
-    console.log('User Capabilities: ', req.user.capabilities);
-    console.log('Method Requires: ', capability);
+    // console.log('User Capabilities: ', req.user.capabilities);
+    // console.log('Method Requires: ', capability);
     try {
       if (req.user.capabilities.includes(capability)) {
         next();
       }
       else {
-        next('Access Denied');
+        res.status(403).send(`You do not have the proper access to ${capability} this resource!`);
       }
     } catch (e) {
-      next('Invalid Login');
+      res.status(403).send('Invalid login!');
     }
   };
 };
