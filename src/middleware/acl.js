@@ -1,9 +1,9 @@
 'use strict';
 
 module.exports = (capability) => {
-
   return (req, res, next) => {
-
+    console.log('User Capabilities: ', req.user.capabilities);
+    console.log('Method Requires: ', capability);
     try {
       if (req.user.capabilities.includes(capability)) {
         next();
@@ -14,7 +14,5 @@ module.exports = (capability) => {
     } catch (e) {
       next('Invalid Login');
     }
-
-  }
-
-}
+  };
+};

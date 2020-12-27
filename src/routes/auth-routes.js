@@ -12,22 +12,26 @@ authRouter.post('/signup', async (req, res, next) => {
   try {
     let user = new User(req.body);
     const userRecord = await user.save();
-    const output = {
-      user: userRecord,
+    const responseObject = {
+      _id: userRecord._id,
+      username: userRecord.username,
+      capabilities: userRecord.capabilities,
       token: userRecord.token,
     };
-    res.status(201).json(output);
+    res.status(201).json(responseObject);
   } catch (e) {
     next(e.message);
   }
 });
 
 authRouter.post('/signin', basicAuth, (req, res, next) => {
-  const user = {
-    user: req.user,
+  const userObject = {
+    _id: req._id,
+    username: req.username,
+    capabilities: req.capabilities,
     token: req.user.token,
   };
-  res.status(200).json(user);
+  res.status(200).json(userObject);
 });
 
 authRouter.get('/users', bearerAuth, async (req, res, next) => {

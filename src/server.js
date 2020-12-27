@@ -12,6 +12,7 @@ const notFoundHandler = require('./error-handlers/404');
 const serverErrorHandler = require('./error-handlers/500');
 // Require routes
 const v1Routes = require('./routes/v1.js');
+const v2Routes = require('./routes/v2.js');
 const authRoutes = require('./routes/auth-routes.js');
 
 // Create an Express server instance named 'app' and attach middleware
@@ -24,6 +25,7 @@ app.use(morgan('dev'));
 
 // Attach routes to app instance
 app.use('/api/v1', v1Routes);
+app.use('/api/v2', v2Routes);
 app.use(authRoutes);
 
 // Error handler middleware
