@@ -7,26 +7,15 @@ const jwt = require('jsonwebtoken');
 const users = new mongoose.Schema({
   username: { type: String, required: true, unique: true },
   password: { type: String, required: true },
-  role: { type: String, required: true, default: 'user', enum: ['user', 'editor', 'admin'] },
-});
-// }, { toObject: { getters: true } }); // What would this do if we use this instead of just });
+}, { toJSON: { virtuals: true }});
 
 // Adds a virtual field to the schema. We can see it, but it never persists
 // So, on every user object ... this.token is now readable!
 users.virtual('token').get(function () {
   let tokenObject = {
     username: this.username,
-  }
-  return jwt.sign(tokenObject, process.env.SECRET)
-});
-
-users.virtual('capabilities').get(function () {
-  let acl = {
-    user: ['read'],
-    editor: ['read', 'create', 'update'],
-    admin: ['read', 'create', 'update', 'delete']
   };
-  return acl[this.role];
+  return jwt.sign(tokenObject, process.env.SECRET);
 });
 
 users.pre('save', async function () {
@@ -37,23 +26,22 @@ users.pre('save', async function () {
 
 // BASIC AUTH
 users.statics.authenticateBasic = async function (username, password) {
-  const user = await this.findOne({ username })
-  const valid = await bcrypt.compare(password, user.password)
+  const user = await this.findOne({ username });
+  const valid = await bcrypt.compare(password, user.password);
   if (valid) { return user; }
   throw new Error('Invalid User');
-}
+};
 
 // BEARER AUTH
 users.statics.authenticateWithToken = async function (token) {
   try {
     const parsedToken = jwt.verify(token, process.env.SECRET);
-    const user = this.findOne({ username: parsedToken.username })
+    const user = await this.findOne({ username: parsedToken.username });
     if (user) { return user; }
-    throw new Error("User Not Found");
+    throw new Error('User Not Found');
   } catch (e) {
-    throw new Error(e.message)
+    throw new Error(e.message);
   }
-}
-
+};
 
 module.exports = mongoose.model('users', users);
