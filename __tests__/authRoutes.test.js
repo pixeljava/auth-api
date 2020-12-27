@@ -59,8 +59,7 @@ describe('Auth Router', () => {
       const response = await mockRequest.post('/signin')
         .auth('admin', 'passrsowd');
       const userObject = response.body;
-      console.log(response.body);
-      expect(response.status).toBe(403);
+      expect(response.status).toBe(500);
       expect(userObject.user).not.toBeDefined();
       expect(userObject.token).not.toBeDefined();
     });
